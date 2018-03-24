@@ -28,13 +28,19 @@ int main(){
 	int din;
 	cin>>din;
 	Heroe* heroe=new Joven(nombre,din);
+	Heroe* heroe2=heroe;
 	while(op!=10){
 		cout<<"menu"<<endl;
 		cout<<"Agregar Mounstros"<<endl;
+		cout<<"Elegir Item"<<endl;
+		cout<<"Batallar"<<endl;
+		cout<<"Eliminar"<<endl;
+		cout<<"Sacar Espada"<<endl;
+		cout<<"Meter Espada"<<endl;
 		cin>>op;
 		int pos;
 		if(op==3){
-			cout<<"Ingrese el mounstro con el que se desea pelear "<<endl;
+			cout<<"Ingrese el mounstro con el que se desea pelear o eliminar "<<endl;
 			cin>>pos;
 		}
 		switch(op){
@@ -47,6 +53,18 @@ int main(){
 			case 3:
 				Batalla(heroe, monsters[pos]);
 				break;
+			case 4:
+				monsters.erase(monsters.begin()+pos);
+				break;
+			case 5:
+				heroe=new Adulto(heroe2->getNombre(),heroe2->getDinero());
+				delete heroe2;
+				heroe2=heroe;
+				break;
+			case 6:
+				heroe=new Joven(heroe2->getNombre(),heroe2->getDinero());
+				delete heroe2;
+				heroe2=heroe;	
 		}
 	}
 	return 0;

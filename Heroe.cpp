@@ -9,6 +9,9 @@ Heroe::Heroe(string nombre,int dinero,int dano,int defensa){
 	vidastot=12;
 	this->defensa=defensa;
 }
+string Heroe::getNombre(){
+	return nombre;
+}
 int Heroe::getDinero(){
 	return dinero;
 }

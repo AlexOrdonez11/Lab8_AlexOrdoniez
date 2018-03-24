@@ -26,6 +26,7 @@ class Heroe{
 		void setItem(Item*);
 		void setJefe(){jefes=jefes+1;};
 		virtual int getVida();
+		string getNombre();
 		int getDefensa();
 		int getDano();	
 		virtual void Ataque(Mounstro*&)=0;
