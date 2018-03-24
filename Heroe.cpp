@@ -6,8 +6,12 @@ Heroe::Heroe(string nombre,int dinero,int dano,int defensa){
 	this->nombre=nombre;
 	this->dano=dano;
 	vida=12;
+	jefes=0;
 	vidastot=12;
 	this->defensa=defensa;
+}
+void Heroe::setJefe(int jefe){
+	jefes=jefe;
 }
 string Heroe::getNombre(){
 	return nombre;
@@ -41,4 +45,7 @@ int Heroe::getDano(){
 }
 bool Heroe::isSpin(){
 	return spin;
+}
+int Heroe::getJefes(){
+	return jefes;
 }

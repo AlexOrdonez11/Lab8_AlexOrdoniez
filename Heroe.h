@@ -10,7 +10,7 @@ class Heroe{
 		Item* item;
 		string nombre;
 		int vida;
-		int jefes=0;
+		int jefes;
 		int defensa;
 		int dano;
 		bool spin;
@@ -24,7 +24,8 @@ class Heroe{
 		Heroe(string,int,int,int);
 		Item* getltem();
 		void setItem(Item*);
-		void setJefe(){jefes=jefes+1;};
+		int getJefes();
+		void setJefe(int);
 		virtual int getVida();
 		string getNombre();
 		int getDefensa();

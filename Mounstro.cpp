@@ -21,7 +21,7 @@ void Mounstro::setVida(int vit){
 int Mounstro::getDebilidad(){
 	return debilidad;
 }
-void Mounstro::Ataca(Heroe* heroe){
+void Mounstro::Ataca(Heroe*& heroe){
 	heroe->setVida(heroe->getVida()+heroe->getDefensa()-dano);
 }
 

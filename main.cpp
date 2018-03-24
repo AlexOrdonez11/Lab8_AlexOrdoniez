@@ -12,6 +12,7 @@
 #include<string>
 #include<vector>
 #include<iostream>
+#include<fstream>
 
 using namespace std;
 
@@ -31,18 +32,20 @@ int main(){
 	Heroe* heroe2=heroe;
 	while(op!=10){
 		cout<<"menu"<<endl;
-		cout<<"Agregar Mounstros"<<endl;
-		cout<<"Elegir Item"<<endl;
-		cout<<"Batallar"<<endl;
-		cout<<"Eliminar"<<endl;
-		cout<<"Sacar Espada"<<endl;
-		cout<<"Meter Espada"<<endl;
+		cout<<"1-Agregar Mounstros"<<endl;
+		cout<<"2-Elegir Item"<<endl;
+		cout<<"3-Batallar"<<endl;
+		cout<<"4-Eliminar"<<endl;
+		cout<<"5-Sacar Espada"<<endl;
+		cout<<"6-Meter Espada"<<endl;
+		cout<<"7-Tienda"<<endl;
 		cin>>op;
 		int pos;
 		if(op==3){
 			cout<<"Ingrese el mounstro con el que se desea pelear o eliminar "<<endl;
 			cin>>pos;
 		}
+		int tienda;
 		switch(op){
 			case 1:
 				monsters.push_back(CrearMons());
@@ -51,7 +54,9 @@ int main(){
 				ElegirItem(heroe);
 				break;
 			case 3:
-				Batalla(heroe, monsters[pos]);
+				if(monsters.size()>0){
+					Batalla(heroe, monsters[pos]);
+				}
 				break;
 			case 4:
 				monsters.erase(monsters.begin()+pos);
@@ -65,9 +70,65 @@ int main(){
 				heroe=new Joven(heroe2->getNombre(),heroe2->getDinero());
 				delete heroe2;
 				heroe2=heroe;	
+			case 7:
+				cout<<"Desea comprar corazon [0/1]:"<<endl;
+				cin>>tienda;
+				if(tienda==0){
+					heroe->setDinero(heroe->getDinero()-200);
+					heroe->setVidast(4);
+				}
+				break;	
 		}
 	}
 	return 0;
+}
+void read(Heroe*& kind){
+	ifstream in("Partida.jd",ios::binary);
+	int vida;
+	in.read(reinterpret_cast<char*>(&vida),sizeof(int));
+	kind->setVida(vida);
+	int jefes;
+	in.read(reinterpret_cast<char*>(&jefes),sizeof(int));
+	kind->setJefe(jefes);
+	int tipo;
+	in.read(reinterpret_cast<char*>(&tipo),sizeof(int));
+	switch(tipo){
+		case 1:
+			kind->setItem(new Bumerang("Bum","rojo"));
+			break;
+		case 2:
+			kind->setItem(new Arco("Archer","blue"));
+			break;
+		case 3:
+			kind->setItem(new Bombas("Bomber","Black"));
+
+	}
+	int dinero;
+	in.read(reinterpret_cast<char*>(&dinero),sizeof(int));
+	kind->setDinero(dinero);
+}
+void write(Heroe* lik){
+	int live=lik->getVida();
+	int dinero=lik->getDinero();
+	int jefes=lik->getJefes();
+	int item;
+	if(dynamic_cast<Bumerang*>(lik->getltem())!=NULL){
+		item=1;
+	}else{
+		if(dynamic_cast<Arco*>(lik->getltem())!=NULL){
+			item=2;
+		}else{
+			item=3;
+		}
+	}
+	ofstream out("Partida.jd",ios::binary);
+	if(out.is_open()){
+		out.write(reinterpret_cast<char*>(&live),sizeof(int));
+		out.write(reinterpret_cast<char*>(&jefes),sizeof(int));
+		out.write(reinterpret_cast<char*>(&item),sizeof(int));
+		out.write(reinterpret_cast<char*>(&dinero),sizeof(int));
+		out.close();
+	}
 }
 void ElegirItem(Heroe*& heroe){
 	cout<<"Ingrese el item 1-bumerang 2-arco 3-bomba"<<endl;
@@ -122,10 +183,17 @@ void Batalla(Heroe*& heroe,Mounstro*& mons){
 			case 2:
 				heroe->getltem()->Ataque(mons);
 				break;
-			case 3:
+			case 4:
 				dynamic_cast<Adulto*>(heroe)->AtaqueEspecial(mons);
 				break;
 				
 		}
+	}
+	if(heroe->getVida()==0||op==3){
+		cout<<"HA perdido"<<endl;
+		heroe->setDinero(heroe->getDinero()/2);
+	}else{
+		cout<<"ha ganado"<<endl;
+		mons->Vencido(heroe);
 	}
 }

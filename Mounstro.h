@@ -17,6 +17,6 @@ class Mounstro{
 		virtual int getDef();	
 		int getDebilidad();
 		virtual void Vencido(Heroe*&)=0;
-		void Ataca(Heroe*);
+		void Ataca(Heroe*&);
 };
 #endif
